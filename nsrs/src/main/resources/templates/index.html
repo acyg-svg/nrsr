@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>商家管理界面</title>
+    <meta name="keywords" content="Admin"/>
+    <meta name="description" content="Admin"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" th:href="@{layui/css/layui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/custom.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/theme.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/responsive.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{css/admin.css}">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black">后台界面</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+                <a href="javascript:;">
+                    <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" class="layui-nav-img">
+                    tester
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">个人信息</a></dd>
+                    <!--<dd><a href="">Settings</a></dd>-->
+                    <dd><a th:href="@{/logout}">退出</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+                <a href="javascript:;">
+                    <i class="layui-icon layui-icon-more-vertical"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <div sec:authorize="hasRole('freshman')">
+                <!--<li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">新生信息管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a th:href="@{freshman/toCheck}">入学信息上传</a></dd>
+                        <dd><a th:href="@{freshman/toFreshmanInfo}">账号信息</a></dd>
+                        &lt;!&ndash;<dd><a href="javascript:;">menu 3</a></dd>
+                        <dd><a href="">the links</a></dd>&ndash;&gt;
+                    </dl>
+                </li>-->
+                </div>
+                <div sec:authorize="hasRole('teacher')">
+                <!--<li class="layui-nav-item">
+                    <a href="javascript:;">教师信息管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a th:href="@{teacher/toStudentExam}">入学信息管理</a></dd>
+                        <dd><a href="javascript:;">个人图片上传</a></dd>
+                        <dd><a href="">账号信息</a></dd>
+                    </dl>
+                </li>-->
+                </div>
+                <div sec:authorize="hasRole('admin')">
+                <li class="layui-nav-item"><a th:href="@{admin/toShowAllUsers}">商家管理</a></li>
+                </div>
+                <!--<li class="layui-nav-item"><a href="">the links</a></li>-->
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;"><div class="container">
+
+
+            <div class="col-md-11">
+                <div id="docs-content">
+                    <h2 class="page-header margin-top-none">状态</h2>
+                    <table class="table">
+                        <tr>
+                            <td colspan="2">
+                                <div sec:authorize="isAnonymous()">
+                                    游客您好：<a th:href="@{/userLogin}">请登录</a>
+                                </div>
+                                <!--<div sec:authorize="isAuthenticated()">
+                                    您好，<span sec:authentication="name"></span>
+                                    权限，<span sec:authentication="principal.authorities"></span>
+                                </div>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="100">最后登录时间:</td>
+                            <td>2021-06-23 12:30</td>
+                        </tr>
+                        <tr>
+                            <td>最后登录IP:</td>
+                            <td>127.0.0.1</td>
+                        </tr>
+                    </table>
+                    <h2 class="page-header margin-top-none">系统信息</h2>
+                    <table class="table">
+                        <tr>
+                            <td width="100">操作系统：</td>
+                            <td>Windows 10</td>
+                        </tr>
+                        <tr>
+                            <td>Maven版本:</td>
+                            <td>3.6.3</td>
+                        </tr>
+                        <tr>
+                            <td>MySQL 版本:</td>
+                            <td>5.7.02</td>
+                        </tr>
+                    </table>
+
+
+                </div>
+            </div>
+        </div></div>
+
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        底部固定区域
+    </div>
+</div>
+<script th:src="@{layui/layui.js}"></script>
+<script>
+    //JS
+    layui.use(['element', 'layer', 'util'], function(){
+        var element = layui.element
+            ,layer = layui.layer
+            ,util = layui.util
+            ,$ = layui.$;
+
+        //头部事件
+        util.event('lay-header-event', {
+            //左侧菜单事件
+            menuLeft: function(othis){
+                layer.msg('展开左侧菜单的操作', {icon: 0});
+            }
+            ,menuRight: function(){
+                layer.open({
+                    type: 1
+                    ,content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+                    ,area: ['260px', '100%']
+                    ,offset: 'rt' //右上角
+                    ,anim: 5
+                    ,shadeClose: true
+                });
+            }
+        });
+
+    });
+    layui.config({
+        base: 'static/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'console']);
+</script>
+</body>
+</html>

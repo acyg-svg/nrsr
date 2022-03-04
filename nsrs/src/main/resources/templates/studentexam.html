@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理界面</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <style>
+        #root{
+            width: 1500px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div id="root">
+    <div class="layui-form layui-form-pane">
+        <form class="layui-form layui-form-pane" th:method="post" th:action="@{/teacher/findStudent}">
+            <div class="layui-form-item">
+                <label class="layui-form-label">已注册学生</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" lay-verify="required" placeholder="请输入新生姓名关键字" autocomplete="off" class="layui-input">
+                </div>
+                <button type="submit" class="layui-btn layui-btn-warm">查询</button>
+            </div>
+        </form>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>入学时间</th>
+            <th>专业</th>
+            <th>手机号码</th>
+            <th>宿舍地址</th>
+            <th>注册状态</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="students  :${students}">
+            <td th:text="${students.id}"></td>
+            <td th:text="${students.name}"></td>
+            <td th:text="${students.age}"></td>
+            <td th:text="${students.sex}"></td>
+            <td th:text="${students.time}"></td>
+            <td th:text="${students.major}"></td>
+            <td th:text="${students.tele}"></td>
+            <td th:text="${students.room}"></td>
+            <td th:text="${students.statuses}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+    <a class="layui-btn layui-btn-lg layui-btn-danger" th:href="@{/}">返回</a>
+</div>
+<script th:src="@{/layui/layui.js}" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述 JS 路径需要改成你本地的 -->
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+
+        //创建一个编辑器
+        var editIndex = layedit.build('LAY_demo_editor');
+
+        //自定义验证规则
+        form.verify({
+            title: function(value){
+                if(value.length < 5){
+                    return '标题至少得5个字符啊';
+                }
+            }
+            ,pass: [
+                /^[\S]{6,12}$/
+                ,'密码必须6到12位，且不能出现空格'
+            ]
+            ,content: function(value){
+                layedit.sync(editIndex);
+            }
+        });
+
+        //监听指定开关
+        form.on('switch(switchTest)', function(data){
+            layer.msg('注册状态：'+ (this.checked ? '未注册' : '已注册'), {
+                offset: '6px'
+            });
+            //layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+            return false;
+        });
+
+        //表单赋值
+        layui.$('#LAY-component-form-setval').on('click', function(){
+            form.val('example', {
+                "username": "贤心" // "name": "value"
+                ,"password": "123456"
+                ,"interest": 1
+                ,"like[write]": true //复选框选中状态
+                ,"close": true //开关状态
+                ,"sex": "女"
+                ,"desc": "我爱 layui"
+            });
+        });
+
+        //表单取值
+        layui.$('#LAY-component-form-getval').on('click', function(){
+            var data = form.val('example');
+            alert(JSON.stringify(data));
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理界面</title>
+    <link type="text/css" rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <style>
+        #root{
+            width: 1300px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div id="root">
+    <form class="layui-form layui-form-pane" method="post" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">查询用户</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" lay-verify="required" placeholder="请输入用户账号关键字" autocomplete="off" class="layui-input">
+            </div>
+            <button type="submit" class="layui-btn layui-btn-warm">查询</button>
+        </div>
+    </form>
+    <a class="layui-btn layui-btn-normal" th:href="@{/admin/toAdd}">添加</a>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>账号</th>
+            <th>密码</th>
+            <th>权限</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="users :${users}">
+            <td th:text="${users.id}"></td>
+            <td th:text="${users.account}"></td>
+            <td th:text="${users.password}"></td>
+            <td th:text="${users.roleId}"></td>
+            <td><a class="layui-btn layui-btn-sm layui-btn-normal" th:href="@{/admin/findById/{id}(id=${users.id})}">修改</a>
+                <a class="layui-btn layui-btn-sm layui-btn-danger" th:href="@{/admin/delById/{id}(id=${users.id})}">删除</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="layui-btn layui-btn-lg layui-btn-danger" th:href="@{/}">返回</a>
+</div>
+</body>
+</html>

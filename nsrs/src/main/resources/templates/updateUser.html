@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}">
+    <style>
+        #root{
+            width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div id="root">
+<form class="layui-form layui-form-pane" th:action="@{/admin/updateById}" th:method="post">
+    <input type="hidden" name="id" th:value="${u.id}">
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-block">
+            <input type="text" name="account" autocomplete="off" placeholder="请输入入学日期" class="layui-input" th:value="${u.account}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-block">
+            <input type="text" name="password" autocomplete="off" placeholder="请输入入学日期" class="layui-input" th:value="${u.password}">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">权限</label>
+        <div class="layui-input-block">
+            <input type="text" name="roleId" autocomplete="off" placeholder="请输入入学日期" class="layui-input" th:value="${u.roleId}">
+        </div>
+    </div>
+    <button class="layui-btn layui-btn-lg" type="submit">确定</button>
+    <button class="layui-btn layui-btn-lg layui-btn-normal" type="reset">重置</button>
+    <a class="layui-btn layui-btn-lg layui-btn-danger" th:href="@{/admin/showAllUsers}">返回</a>
+</form>
+</div>
+</body>
+</html>
